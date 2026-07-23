@@ -118,13 +118,13 @@
   /* ---------- portrait card ---------- */
   .portrait-wrap{position:relative;justify-self:center}
   .vinyl-bg{
-    position:absolute;width:560px;height:560px;left:50%;top:50%;
+    position:absolute;width:min(52vw,760px);height:min(52vw,760px);left:50%;top:50%;
     transform:translate(-50%,-50%);z-index:0;opacity:.55;
     animation:spin 14s linear infinite;
   }
   @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
   .portrait{
-    position:relative;z-index:2;width:min(340px,70vw);aspect-ratio:3/4;
+    position:relative;z-index:2;width:clamp(340px,33vw,480px);aspect-ratio:3/4;
     border:1px solid #ffffff22;
     box-shadow:0 0 0 8px #0e0e18, 0 0 60px rgba(255,45,120,.28), 0 30px 80px rgba(0,0,0,.7);
     overflow:hidden;background:#0b0b14;
@@ -427,6 +427,16 @@
   #ytbg{position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;bottom:0;border:0}
 
   .sound-btn:not(.playing){animation:pulse 2.2s infinite}
+
+  @media (min-width:981px){
+    .wanted-stamp{font-size:34px;left:18px;top:22px}
+    .portrait .tag{font-size:12px}
+    .badge-live{font-size:13px;padding:10px 18px}
+  }
+  @media (max-width:980px){
+    .portrait{width:min(70vw,380px)}
+    .vinyl-bg{width:110vw;height:110vw;max-width:560px;max-height:560px}
+  }
 </style>
 </head>
 <body>
