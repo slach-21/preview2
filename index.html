@@ -273,6 +273,51 @@
   @keyframes iCut{to{left:100%}}
   @keyframes iCutOut{to{opacity:0}}
   @keyframes iOut{to{opacity:0;visibility:hidden}}
+
+  /* anchor nav: desktop only */
+  .anchors{display:none}
+  @media(min-width:1000px){
+    .anchors{display:flex;gap:26px;margin:0 auto;padding:0 20px}
+    .anchors a{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--bone2);
+      padding:6px 0;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+    .anchors a:hover{color:var(--bone)}
+    .anchors a.cur{color:var(--brass-b);border-bottom-color:var(--brass-b)}
+  }
+  section[id]{scroll-margin-top:66px}
+
+  /* mobile burger + fullscreen menu */
+  .mburger{width:40px;height:40px;flex:none;border:1.5px solid rgba(240,233,218,.28);background:none;display:grid;place-items:center;cursor:pointer;padding:0}
+  .mburger div{display:grid;gap:5px}
+  .mburger span{display:block;width:18px;height:1.8px;background:var(--brass-b);transition:.25s}
+  .menu-open .mburger span:nth-child(1){transform:translateY(6.8px) rotate(45deg)}
+  .menu-open .mburger span:nth-child(2){opacity:0}
+  .menu-open .mburger span:nth-child(3){transform:translateY(-6.8px) rotate(-45deg)}
+  @media(min-width:1000px){.mburger{display:none}}
+  @media(max-width:999px){.bar-right > .lang{display:none}}
+  .mmenu{position:fixed;inset:0;z-index:60;background:var(--dark);color:var(--bone);display:none;flex-direction:column;padding:0 var(--pad) 22px}
+  .menu-open .mmenu{display:flex}
+  .menu-open{overflow:hidden}
+  .mm-top{display:flex;justify-content:space-between;align-items:center;height:58px}
+  .mm-brand{display:flex;align-items:center;gap:10px}
+  .mono-x{font-family:var(--fr);font-style:italic;font-weight:600;font-size:17px;color:var(--brass-b);border:1.5px solid var(--brass-b);width:30px;height:30px;display:grid;place-items:center}
+  .mm-brand b{font-family:var(--anton);font-weight:400;font-size:15px;letter-spacing:.12em}
+  .mm-close{width:40px;height:40px;border:1.5px solid rgba(240,233,218,.28);background:none;color:var(--bone);font-size:15px;cursor:pointer}
+  .mm-nav{flex:1;display:flex;flex-direction:column;justify-content:center;gap:2px}
+  .mm-nav a{display:flex;align-items:baseline;gap:14px;padding:9px 0}
+  .mm-nav a s{font-family:var(--fr);font-style:italic;font-size:13px;color:var(--brass);text-decoration:none;min-width:26px}
+  .mm-nav a b{font-family:var(--anton);font-weight:400;font-size:clamp(26px,7.2vw,34px);letter-spacing:.05em;text-transform:uppercase}
+  .mm-nav a:active b{color:var(--brass-b)}
+  .menu-open .mm-nav a{transform:translateY(28px);opacity:0;animation:mmUp .45s cubic-bezier(.2,.8,.2,1) forwards}
+  .menu-open .mm-nav a:nth-child(1){animation-delay:.04s}.menu-open .mm-nav a:nth-child(2){animation-delay:.1s}
+  .menu-open .mm-nav a:nth-child(3){animation-delay:.16s}.menu-open .mm-nav a:nth-child(4){animation-delay:.22s}
+  .menu-open .mm-nav a:nth-child(5){animation-delay:.28s}.menu-open .mm-nav a:nth-child(6){animation-delay:.34s}
+  @keyframes mmUp{to{transform:none;opacity:1}}
+  .mm-foot{display:grid;gap:12px;justify-items:center}
+  .mm-lang{display:flex !important}
+  .mm-cta{display:block;width:100%;text-align:center;background:var(--brass-b);color:var(--dark);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:16px}
+  .mm-cta:active{background:var(--bone)}
+  .mm-tel{color:var(--bone2);font-size:13.5px}
+  @media(prefers-reduced-motion:reduce){.menu-open .mm-nav a{animation:none;transform:none;opacity:1}}
 </style>
 </head>
 <body>
@@ -304,16 +349,50 @@
       <span class="mono">M</span>
       <span><b>Mekan Tan</b><small>Mobile Barber · Estonia</small></span>
     </a>
+    <nav class="anchors" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#prices">Prices</a>
+      <a href="#craft">The craft</a>
+      <a href="#work">Gallery</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#area">Contact</a>
+    </nav>
     <div class="bar-right">
       <div class="lang" role="group" aria-label="Language">
         <button class="on" aria-current="true">EN</button>
         <button data-lang="RU">RU</button>
         <button data-lang="ET">ET</button>
       </div>
+      <button class="mburger" id="mburger" aria-label="Menu" aria-expanded="false" onclick="toggleMenu()"><div><span></span><span></span><span></span></div></button>
       <a class="btn btn-solid" style="border-color:var(--brass-b);background:var(--brass-b);color:var(--dark)" href="#book">Book</a>
     </div>
   </div>
 </header>
+
+<!-- mobile fullscreen menu -->
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <div class="mm-top">
+    <span class="mm-brand"><span class="mono-x">M</span><b>MEKAN&nbsp;TAN</b></span>
+    <button class="mm-close" aria-label="Close menu" onclick="toggleMenu()">✕</button>
+  </div>
+  <nav class="mm-nav" aria-label="Menu">
+    <a href="#how" onclick="toggleMenu()"><s>01</s><b>How it works</b></a>
+    <a href="#prices" onclick="toggleMenu()"><s>02</s><b>Prices</b></a>
+    <a href="#craft" onclick="toggleMenu()"><s>03</s><b>The craft</b></a>
+    <a href="#work" onclick="toggleMenu()"><s>04</s><b>Gallery</b></a>
+    <a href="#reviews" onclick="toggleMenu()"><s>05</s><b>Reviews</b></a>
+    <a href="#area" onclick="toggleMenu()"><s>06</s><b>Contact</b></a>
+  </nav>
+  <div class="mm-foot">
+    <div class="lang mm-lang" role="group" aria-label="Language">
+      <button class="on" aria-current="true">EN</button>
+      <button data-lang="RU">RU</button>
+      <button data-lang="ET">ET</button>
+    </div>
+    <a class="mm-cta" href="#book" onclick="toggleMenu()">Book a visit</a>
+    <a class="mm-tel" href="tel:+37253082235">+372 5308 2235</a>
+  </div>
+</div>
 
 <!-- ================= HERO ================= -->
 <section class="hero grain on-dark" id="top">
@@ -560,6 +639,30 @@
   },{threshold:.1});
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 
+
+  // scrollspy for anchor nav
+  (function(){
+    var links=[].slice.call(document.querySelectorAll('.anchors a'));
+    if(!links.length)return;
+    var map={};
+    links.forEach(function(l){var s=document.querySelector(l.getAttribute('href'));if(s)map[s.id]=l});
+    var spy=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(l){l.classList.remove('cur')});
+          var l=map[e.target.id]; if(l)l.classList.add('cur');
+        }
+      });
+    },{rootMargin:'-30% 0px -60% 0px'});
+    Object.keys(map).forEach(function(id){spy.observe(document.getElementById(id))});
+  })();
+
+  // mobile fullscreen menu
+  function toggleMenu(){
+    var open=document.body.classList.toggle('menu-open');
+    document.getElementById('mburger').setAttribute('aria-expanded',open);
+    document.getElementById('mmenu').setAttribute('aria-hidden',!open);
+  }
 </script>
 </body>
 </html>
